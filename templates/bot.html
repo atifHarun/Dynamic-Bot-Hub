@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ bot_name }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="chat-container">
+        <header>
+            <h1>{{ bot_name }}</h1>
+        </header>
+        <div class="chat-history" id="chat-history">
+            <div class="message system-message">
+                Hello! I am the {{ bot_name }}. How can I assist you today?
+            </div>
+        </div>
+        <div class="chat-input-area">
+            <input type="text" id="user-input" placeholder="Type your message here..." onkeypress="handleKeyPress(event)">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <script>
+        const botType = "{{ bot_type }}";
+
+        function appendMessage(role, content) {
+            const history = document.getElementById("chat-history");
+            const msgDiv = document.createElement("div");
+            msgDiv.className = `message ${role}-message`;
+            msgDiv.textContent = content;
+            history.appendChild(msgDiv);
+            history.scrollTop = history.scrollHeight;
+        }
+
+        async function sendMessage() {
+            const inputField = document.getElementById("user-input");
+            const message = inputField.value.trim();
+            if (!message) return;
+
+            appendMessage("user", message);
+            inputField.value = "";
+
+            try {
+                const response = await fetch("/chat", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        botType: botType,
+                        message: message
+                    })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    appendMessage("error", "Error: " + (data.error || "Unknown error occurred"));
+                } else {
+                    appendMessage("bot", data.reply);
+                }
+            } catch (error) {
+                appendMessage("error", "Failed to connect to the server.");
+            }
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === "Enter") {
+                sendMessage();
+            }
+        }
+    </script>
+</body>
+</html>
