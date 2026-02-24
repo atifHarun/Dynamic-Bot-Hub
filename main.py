@@ -31,6 +31,11 @@ def load_bot_config(bot_type):
     with open(file_path, "r", encoding="utf-8") as f:
         return json.load(f)
 
+@app.route("/")
+def index():
+    """Serve the directory page."""
+    return render_template("index.html")
+
 @app.route("/bot/<bot_type>")
 def bot_page(bot_type):
     """Serve the webpage for the specific chatbot."""

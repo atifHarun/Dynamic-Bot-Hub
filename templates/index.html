@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot Directory</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .directory-container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .bot-link {
+            display: block;
+            padding: 15px;
+            margin: 10px 0;
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+        .bot-link:hover {
+            background: #e9ecef;
+        }
+    </style>
+</head>
+<body>
+    <div class="directory-container">
+        <h1>Available Chatbots</h1>
+        <p>Select a chatbot to start a conversation:</p>
+        <a href="/bot/agriculture" class="bot-link">Agricultural Decision Optimizer</a>
+        <a href="/bot/hospital" class="bot-link">General Hospital Patient Navigator</a>
+        <a href="/bot/cookie" class="bot-link">Online Cookie Shop Customer Support</a>
+        <a href="/bot/school" class="bot-link">School IT Helper</a>
+        <a href="/bot/hotel" class="bot-link">Voice-Activated Hotel In-Room Assistant</a>
+    </div>
+</body>
+</html>
